@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Tickets;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,17 @@ class TicketsRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tickets::class);
+    }
+
+    public function findHistoryByClient(User $client)
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t.numero as ticketNumero', 'g.description as gainDescription')
+            ->join('t.gain', 'g')
+            ->where('t.client = :client')
+            ->setParameter('client', $client)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

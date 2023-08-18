@@ -21,6 +21,14 @@ class GainsRepository extends ServiceEntityRepository
         parent::__construct($registry, Gains::class);
     }
 
+    public function findAllIds(): array
+    {
+        return $this->createQueryBuilder('g')
+            ->select('g.id')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Gains[] Returns an array of Gains objects
 //     */
