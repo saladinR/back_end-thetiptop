@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Tickets;
 use App\Entity\Gains;
 use App\Entity\User;
+use DateTime;
 use Symfony\Component\Security\Core\Security;
 
 class TirageService
@@ -31,12 +32,13 @@ class TirageService
         if (!$ticket) {
             return "Ticket invalide ou déjà utilisé.";
         }
-
+        $dateTirage = new \DateTimeImmutable();
         $gainId = $this->choisirGain($gainRepository,$gainIds);
         $gain = $gainRepository->findOneBy(['id' => $gainId]);
         $user = $userRepository->findOneBy(['id' => $idUser]);
         $ticket->setUtilise(true);
         $ticket->setGain($gain);
+        $ticket->setCreatedAt($dateTirage);
         $ticket->setClient($user);
 
         

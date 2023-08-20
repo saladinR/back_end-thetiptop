@@ -25,13 +25,18 @@ class TicketsRepository extends ServiceEntityRepository
     public function findHistoryByClient(User $client)
     {
         return $this->createQueryBuilder('t')
-            ->select('t.numero as ticketNumero', 't.createdAt as ticketCreatedDate')
-            ->where('t.client = :client')
+            ->join('t.gain', 'g') // Join with the gains table using the 'gain' relationship
+            ->select('t.numero as ticketNumero', 'g.description as gainDescription', 'IDENTITY(t.client) as userId', 't.createdAt as dateTirage')
+            ->where('IDENTITY(t.client) = :clientId') 
             ->andWhere('t.utilise = true')
-            ->setParameter('client', $client)
+            ->setParameter('clientId', $client->getId())
             ->getQuery()
             ->getResult();
     }
+    
+    
+    
+    
     
 
 //    /**
