@@ -27,25 +27,38 @@ pipeline {
                 }
             }
         }
-
-        stage('Run Tests with SonarQube') {
+        stage('build image') {
             steps {
                 script {
-                    // Run your tests and generate the necessary reports
-                    
-                    // Configure SonarQube analysis
-                    def scannerHome = tool 'sonar_test' // Make sure you have the SonarScanner tool configured in Jenkins
-                    
-                    withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=backend \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://217.160.8.74:9000 \
-                            -Dsonar.token=sqp_0e2f29539e7cfa3ca642fd741351773b7cf4aaf3"
+                    echo "building the docker image..."
+                    withCredentials([usernamePassword(credentialsId: 'instance', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh "sshpass -p $PASS  ssh $USER@217.160.8.74 'docker-compose up -d' "
+                      
                     }
                 }
             }
         }
+
+
+
+        // stage('Run Tests with SonarQube') {
+        //     steps {
+        //         script {
+        //             // Run your tests and generate the necessary reports
+                    
+        //             // Configure SonarQube analysis
+        //             def scannerHome = tool 'sonar_test' // Make sure you have the SonarScanner tool configured in Jenkins
+                    
+        //             withSonarQubeEnv('SonarQube') {
+        //                 sh "${scannerHome}/bin/sonar-scanner \
+        //                     -Dsonar.projectKey=backend \
+        //                     -Dsonar.sources=. \
+        //                     -Dsonar.host.url=http://217.160.8.74:9000 \
+        //                     -Dsonar.token=sqp_0e2f29539e7cfa3ca642fd741351773b7cf4aaf3"
+        //             }
+        //         }
+        //     }
+        // }
     }
     
 }
