@@ -34,7 +34,7 @@ pipeline {
                     // Run your tests and generate the necessary reports
                     
                     // Configure SonarQube analysis
-                    def scannerHome = tool 'SonarScanner' // Make sure you have the SonarScanner tool configured in Jenkins
+                    def scannerHome = tool 'sonar_test' // Make sure you have the SonarScanner tool configured in Jenkins
                     
                     withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner \
