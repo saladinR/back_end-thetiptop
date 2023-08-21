@@ -15,14 +15,19 @@ pipeline {
             }
         }
 
-        stage('Build and Push') {
+        stage('build image') {
             steps {
                 script {
-                    //sh 'docker build -t test .'
-                    sh 'echo build and push'
+                    echo "building the docker image..."
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh "docker build -t salaheddineraiss/back_end ."
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh "docker push salaheddineraiss/back_end"
+                    }
                 }
             }
         }
+
         stage('Run Tests with SonarQube') {
             steps {
                 script {
