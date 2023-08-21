@@ -32,7 +32,7 @@ pipeline {
                 script {
                     echo "building the docker image..."
                     sshagent(['ssh-instance']) {                
-                        sh "ssh root@217.160.8.74 'docker-comose up -d' "   
+                        sh "ssh -o StrictHostKeyChecking=no root@217.160.8.74 'docker-compose up -d' "   
                     }
                 }
             }
