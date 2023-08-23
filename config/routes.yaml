@@ -9,5 +9,9 @@ api_login_check:
 #    authentication_token:
 #        path: loginjwt
 #        methods: ["POST"]
+registration:
+    path: /api/register
+    controller: 'App\Controller\RegistrationController::__invoke'
+    methods: ['POST']
 
 

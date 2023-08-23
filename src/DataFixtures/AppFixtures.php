@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-
 use App\Entity\User;
 use App\Entity\Gains;
 use App\Entity\Tickets;
@@ -71,13 +70,12 @@ class AppFixtures extends Fixture
 
         
         // Création des Tickets
-        $dateTirage = new \DateTimeImmutable();
+
         $ticket = new Tickets();
         $ticket->setNumero("123456789A");
         // $ticket->setClient(60);
         // $ticket->setGain(0);
         $ticket->setUtilise(false);
-        $ticket->setCreatedAt($dateTirage);
         $manager->persist($ticket);
 
         $manager->flush();

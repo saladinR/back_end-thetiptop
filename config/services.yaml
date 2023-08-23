@@ -7,6 +7,12 @@ parameters:
 
 
 services:
+    App\Controller\RegistrationController:
+        public: true
+        tags: [ 'controller.service_arguments' ]
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $passwordEncoder: '@security.password_encoder'
     acme_api.event.authentication_failure_listener:
         class: App\EventListener\AuthenticationFailureListener
         tags:
