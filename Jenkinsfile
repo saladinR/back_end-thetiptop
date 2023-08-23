@@ -31,9 +31,9 @@ pipeline {
                 script {
                     echo "building the docker image..."
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh "docker build -t salaheddineraiss/front_end ."
+                        sh "docker build -t salaheddineraiss/back_end ."
                         sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh "docker push salaheddineraiss/front_end"
+                        sh "docker push salaheddineraiss/back_end"
                     }
                 }
             }
@@ -48,8 +48,14 @@ pipeline {
                 }
             }
         }
-
+        
 
     }
+    post {
+            always {
+            // Clean up after the pipeline finishes
+                deleteDir()
+            }
+        }
     
 }
